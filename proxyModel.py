@@ -1,4 +1,4 @@
-from PySide2.QtCore import QSortFilterProxyModel
+from PySide2.QtCore import QSortFilterProxyModel, Qt
 from PySide2.QtCore import QModelIndex, Slot
 
 class FilterModel(QSortFilterProxyModel):
@@ -20,6 +20,11 @@ class FilterModel(QSortFilterProxyModel):
             return model.createIndex(source_row, 0).data(model.ToDoIsDone)
         elif self.filter_mode == self.mode_show_in_progress:
             return not model.createIndex(source_row, 0).data(model.ToDoIsDone)
+
+    def setData(self, index, value, role: int = Qt.ItemDataRole.EditRole) -> bool:
+        self.sourceModel().setData(index, value, role)
+        print("Done")
+        return True
 
     @Slot(str)
     def changeFilterMode(self, new_mode):

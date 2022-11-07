@@ -20,6 +20,7 @@ Rectangle {
         anchors {
             top: root.top
             left: root.left
+            topMargin: 8
             leftMargin: 8
         }
 		spacing: 8
@@ -49,12 +50,16 @@ Rectangle {
 		    snapMode: ListView.SnapToItem
             delegate: CustomDelegate {}
             clip: true
-            focus: true
+            //focus: true
 
             highlight: Rectangle {
                 border.color: text_color
                 color: "transparent"
                 radius: 14
+            }
+
+            onActiveFocusChanged: {
+                console.log("changed")
             }
 		}
 
@@ -122,85 +127,107 @@ Rectangle {
 	     }
     }
 
-	Column{
-	    id: edit_column
-	    anchors {
-	        top: parent.top
-	        //left: add_column.right
-	        right: parent.right
-	        topMargin: 30
-	        leftMargin: 10
-	        rightMargin: 10
-	    }
+    Rectangle{
+        id: popup_rect
 
-	    spacing: 8
-
-        CustomTextField {
-	        id: edit_name_text_field
-
-		    height: 30
-            width: root.width/2 - 20
-            anchors.left: edit_column.left
-
-		    placeholderText: "Edit name"
-		}
-
-        CustomTextField {
-		    id: edit_date_text_field
-
-		    height: 30
-            width: root.width/2 - 20
-            anchors.left: edit_column.left
-
-		    placeholderText: "Edit date"
-		}
-
-		CustomTextField {
-		    id: edit_description_text_field
-
-		    height: 30
-            width: root.width/2 - 20
-            anchors.left: edit_column.left
-
-		    placeholderText: "Edit description"
-		}
-
-        CustomButton {
-            id: edit_button
-
-            anchors.horizontalCenter: edit_column.horizontalCenter
-
-            property int currentItemId: 0
-
-            button_text: "Edit task"
-
-            MouseArea{
-                anchors.fill: parent
-
-                onClicked: {
-	                if(edit_name_text_field.text == ""){
-		                edit_name_text_field.background.color = text_field_wrong_input
-		            }
-
-                    if(edit_date_text_field.text == ""){
-		                edit_date_text_field.background.color = text_field_wrong_input
-		            }
-
-		            if(edit_description_text_field.text == ""){
-		                edit_description_text_field.background.color = text_field_wrong_input
-		            }
-
-                    if(edit_name_text_field.text != "" &&
-                       edit_date_text_field.text != "" &&
-                       edit_description_text_field.text != ""){
-		                ToDoModel.editTask(edit_button.currentItemId, edit_name_text_field.text, edit_date_text_field.text, edit_description_text_field.text)
-
-		                name_text_field.clear()
-		                date_text_field.clear()
-		                description_text_field.clear()
-		            }
-		        }
-            }
+        anchors {
+            left: add_column.right
+            right: root.right
+            top: parent.top
         }
-	}
+
+        Popup {
+            id: popup_edit
+            width: root.width/2 - 10
+            height: 200
+            padding: 8
+
+            background: Rectangle {
+                anchors.fill: parent
+                color: background_color
+            }
+
+            contentItem: Column{
+                spacing: 8
+
+                Text {
+		            id: edit_text
+
+		            height: 20
+		            anchors.horizontalCenter: parent.horizontalCenter
+
+			        text: "<b>Edit</b>"
+			        color: text_color
+			        font.pointSize: 14
+		        }
+
+                CustomTextField {
+	                id: edit_name_text_field
+
+		            height: 30
+                    width: root.width/2 - 20
+
+		            placeholderText: "Edit name"
+		        }
+
+		        CustomTextField {
+		            id: edit_date_text_field
+
+		            height: 30
+                    width: root.width/2 - 20
+
+		            placeholderText: "Edit date"
+		        }
+
+		        CustomTextField {
+		            id: edit_description_text_field
+
+		            height: 30
+                    width: root.width/2 - 20
+
+        		    placeholderText: "Edit description"
+		        }
+
+                CustomButton {
+                    id: edit_button
+
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    property int currentItemId: 0
+
+                    button_text: "Edit task"
+
+                    MouseArea{
+                        anchors.fill: parent
+
+                        onClicked: {
+	                        if(edit_name_text_field.text == ""){
+		                        edit_name_text_field.background.color = text_field_wrong_input
+		                    }
+
+                            if(edit_date_text_field.text == ""){
+		                        edit_date_text_field.background.color = text_field_wrong_input
+		                    }
+
+		                    if(edit_description_text_field.text == ""){
+		                        edit_description_text_field.background.color = text_field_wrong_input
+		                    }
+
+                            if(edit_name_text_field.text != "" &&
+                               edit_date_text_field.text != "" &&
+                               edit_description_text_field.text != "")
+                            {
+		                        ToDoModel.editTask(edit_button.currentItemId, edit_name_text_field.text, edit_date_text_field.text, edit_description_text_field.text)
+                                //list_view.itemAtIndex(list_view.currentIndex).Name = edit_name_text_field.text
+                                //console.log(ToDoModel.editData())
+		                        name_text_field.clear()
+		                        date_text_field.clear()
+		                        description_text_field.clear()
+		                    }
+		                }
+                    }
+                }
+		    }
+		}
+    }
 }

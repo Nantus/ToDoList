@@ -26,7 +26,7 @@ Component {
             anchors.fill: parent
             onClicked: {
                 list_view.currentIndex = index
-
+                popup_edit.open()
                 edit_name_text_field.text = Name
                 edit_date_text_field.text = Date
                 edit_description_text_field.text = Description
@@ -42,19 +42,19 @@ Component {
             }
 
             Text {
-                text: "Name: " + Name;
+                text: "<b>Name:  </b>" + Name;
                 color: "white"
                 font.pointSize: 12
             }
 
             Text {
-                text: "Date: " + Date;
+                text: "<b>Date:  </b>" + Date;
                 color: "white"
                 font.pointSize: 12
             }
 
             Text {
-                text: "Description: " + Description;
+                text: "<b>Description:  </b>" + Description;
                 color: "white"
                 font.pointSize: 12
             }

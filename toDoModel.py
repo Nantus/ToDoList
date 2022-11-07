@@ -1,4 +1,4 @@
-from PySide2.QtCore import QAbstractListModel, Qt, Slot, QModelIndex, QUrl
+from PySide2.QtCore import QAbstractListModel, Qt, Slot, QModelIndex, QUrl, QObject, SIGNAL
 
 class ToDoModel(QAbstractListModel):
     ToDoName = Qt.UserRole + 1
@@ -55,6 +55,21 @@ class ToDoModel(QAbstractListModel):
 
     def rowCount(self, parent=None):
         return len(self._todo_list)
+
+    def setData(self, index, value, role: int = Qt.ItemDataRole.EditRole) -> bool:
+        row = index.row()
+        self.beginResetModel()
+
+        print("Heha")
+        self._todo_list[row][self.roleNames()[role]] = value
+        self.endResetModel()
+        QObject.emit(self, SIGNAL("dataChanged(const QModelIndex&, const QModelIndex&)"), index, index)
+        return True
+
+    def flags(self, index):
+        if not index.isValid():
+           return Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsEditable | Qt.ItemIsUserCheckable
 
     def roleNames(self):
         return {self.ToDoName: str.encode(self.name_text),
