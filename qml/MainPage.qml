@@ -156,7 +156,7 @@ Rectangle {
 		            height: 20
 		            anchors.horizontalCenter: parent.horizontalCenter
 
-			        text: "<b>Edit</b>"
+			        text: "<b>Edit Task</b>"
 			        color: text_color
 			        font.pointSize: 14
 		        }

@@ -60,7 +60,6 @@ class ToDoModel(QAbstractListModel):
         row = index.row()
         self.beginResetModel()
 
-        print("Heha")
         self._todo_list[row][self.roleNames()[role]] = value
         self.endResetModel()
         QObject.emit(self, SIGNAL("dataChanged(const QModelIndex&, const QModelIndex&)"), index, index)

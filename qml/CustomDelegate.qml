@@ -6,6 +6,7 @@ Component {
 
     Rectangle {
         id: component_rectangle
+
         property string image_true_source: "./../images/checkbox_true.png"
         property string image_false_source: "./../images/checkbox_false.png"
 

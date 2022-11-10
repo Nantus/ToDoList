@@ -2,7 +2,7 @@ import sys
 from toDoModel import ToDoModel
 from proxyModel import FilterModel
 from PySide2.QtGui import QResizeEvent
-from PySide2.QtCore import QUrl, Signal, Slot, QModelIndex
+from PySide2.QtCore import QUrl, Signal, Slot, QModelIndex, QSize
 from PySide2.QtWidgets import QApplication
 from PySide2.QtQuick import QQuickView
 
@@ -10,6 +10,7 @@ from PySide2.QtQuick import QQuickView
 class MyView(QQuickView):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setMinimumSize(QSize(600,650))
         self.model = ToDoModel()
         self.filter_model = FilterModel()
         self.filter_model.setSourceModel(self.model)
